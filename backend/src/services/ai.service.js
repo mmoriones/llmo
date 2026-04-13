@@ -1,19 +1,23 @@
-import ollama from "ollama";
+import { Ollama } from "ollama";
 import { OLLAMA_MODEL } from "../config/ollama.js";
 
-export async function askLLM(messages, signal) {
+export const ollama = new Ollama();
+
+export async function askLLM(messages) {
 
   const system = {
     role: "system",
     content: "You are concise but helpful."
   };
 
-  const response = await ollama.chat({
+  const stream = await ollama.chat({
     model: OLLAMA_MODEL,
     messages: [system, ...messages],
-    stream: true,
-    signal
+    stream: true
   });
 
-  return response;
+  return {
+    stream,
+    ollama
+  };
 }

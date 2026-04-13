@@ -12,15 +12,22 @@ function App() {
   const [isStreaming, setIsStreaming] = useState(false);
 
   const chatRef = useRef(null);
+  const readerRef = useRef(null);
 
   useEffect(() => {
     chatRef.current?.scrollTo(0, chatRef.current.scrollHeight);
   }, [messages]);
 
-  const stopStream = () => {
+  const stopStream = async () => {
+
     if (controllerRef.current) {
       controllerRef.current.abort();
     }
+
+    await fetch("http://localhost:8000/api/ai/abort", {
+      method: "POST"
+    });
+
     setIsStreaming(false);
 
   };
@@ -55,6 +62,7 @@ function App() {
     });
 
     const reader = res.body.getReader();
+    readerRef.current = reader;
     const decoder = new TextDecoder();
 
     let aiMessage = { role: "assistant", content: "" };

@@ -3,6 +3,8 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.js";
 import aiRoutes from "./routes/ai.routes.js";
+import abortRoutes from "./routes/abort.routes.js";
+
 
 const app = express();
 
@@ -10,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/ai", aiRoutes);
+app.use("/api/ai", abortRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

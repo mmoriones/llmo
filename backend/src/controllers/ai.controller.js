@@ -2,45 +2,57 @@ import { askLLM } from "../services/ai.service.js";
 
 export const chatWithAI = async (req, res) => {
 
-  const controller = new AbortController();
+  let clientClosed = false;
 
   try {
 
     const { messages } = req.body;
 
-    const stream = await askLLM(messages, controller.signal);
+    const { stream, ollama } = await askLLM(messages);
 
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
     res.setHeader("Transfer-Encoding", "chunked");
 
     req.on("close", () => {
-      console.log("Client disconnected — aborting Ollama request");
-      controller.abort(); // stops ollama generation
+      console.log("Client disconnected — aborting Ollama generation");
+
+      clientClosed = true;
+
+      try {
+        ollama.abort();
+      } catch (e) {}
+
     });
 
     for await (const chunk of stream) {
 
-      const token = chunk.message?.content || "";
-      res.write(token);
+      if (clientClosed) break;
 
+      const token = chunk.message?.content || "";
+
+      if (!res.writableEnded) {
+        res.write(token);
+      }
+      
     }
 
-    res.end();
+    if (!res.writableEnded) {
+      res.end();
+    }
 
   } catch (error) {
 
     if (error.name === "AbortError") {
-      console.log("Generation aborted");
+      //console.log("Generation aborted");
       return;
     }
-
-    console.error(error);
 
     if (!res.headersSent) {
       res.status(500).json({
         error: "LLM request failed"
       });
     }
+    console.error(error);
 
   }
 
