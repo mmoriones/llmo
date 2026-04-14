@@ -17,8 +17,8 @@ function ChatInput({
         bg-white dark:bg-gray-800
         text-black dark:text-white
         rounded px-3 py-2
-        focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500
-"
+        focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500"
+        
         value={input}
         onChange={(e)=>setInput(e.target.value)}
         onKeyDown={(e) => {

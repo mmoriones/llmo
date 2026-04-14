@@ -120,7 +120,7 @@ function ChatPage() {
 
           {/* Scrollable Chat */}
           <div ref={chatRef} className="flex-1 overflow-y-auto chat-scroll">
-            <div className="px-6">
+            <div className="px-6 pb-6">
               <ChatMessages messages={messages} />
             <div ref={bottomRef}/>
           </div>
