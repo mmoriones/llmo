@@ -121,13 +121,13 @@ function ChatPage() {
           {/* Scrollable Chat */}
           <div ref={chatRef} className="flex-1 overflow-y-auto chat-scroll">
             <div className="px-6 pb-6">
-              <ChatMessages messages={messages} />
+              <ChatMessages messages={messages}/>
             <div ref={bottomRef}/>
           </div>
           </div>
 
           {/* Sticky Input */}
-          <div className="bg-white dark:bg-gray-900 px-4 pb-4">
+          <div className="bg-white dark:bg-transparent pb-4">
             <div className="max-w-3xl mx-auto">
               <ChatInput
                 input={input}

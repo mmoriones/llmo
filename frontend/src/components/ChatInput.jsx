@@ -7,10 +7,7 @@ function ChatInput({
 }) {
 
   return (
-    <div className="flex gap-2 mt-4
-        bg-white dark:bg-gray-900
-        border border-gray-200 dark:border-gray-800
-        rounded-lg p-2">
+    <div className="flex gap-2 mt-4 mb-2 rounded-lg p-2">
 
       <input
         className="flex-1 border border-gray-300 dark:border-gray-700

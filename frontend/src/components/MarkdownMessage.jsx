@@ -1,9 +1,13 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { vscDarkPlus, vs } from "react-syntax-highlighter/dist/esm/styles/prism";
+import useDarkMode from "../hooks/useDarkMode";
 
 function MarkdownMessage({ content }) {
+
+  const isDark = useDarkMode();
+
   return (
     <div className="
       prose max-w-none
@@ -20,18 +24,19 @@ function MarkdownMessage({ content }) {
 
             if (!inline && match) {
               return (
-                <div className="relative">
+                <div className="relative w-full">
                   <button
                     onClick={() => navigator.clipboard.writeText(code)}
-                    className="absolute right-2 top-2 text-xs bg-gray-700 text-white px-2 py-1 rounded"
+                    className="absolute right-2 top-2 text-xs bg-gray-700 text-white px-2 py-1 rounded hover:bg-gray-600 transition-colors"
                   >
-                    copy
+                    Copy
                   </button>
 
                   <SyntaxHighlighter
-                    style={vscDarkPlus}
-                    language={match[1]}
+                    style={isDark ? vscDarkPlus : vs}
+                    language={match[1] || "text"}
                     PreTag="div"
+                    className="rounded-lg text-sm overflow-x-auto"
                     {...props}
                   >
                     {code}
@@ -41,7 +46,7 @@ function MarkdownMessage({ content }) {
             }
 
             return (
-              <code className="bg-gray-200 dark:bg-gray-800
+              <code className="bg-gray-300 dark:bg-gray-800
                 text-gray-900 dark:text-gray-100
                 px-1.5 py-0.5
                 rounded">

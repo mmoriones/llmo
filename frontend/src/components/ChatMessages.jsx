@@ -7,14 +7,14 @@ function ChatMessages({ messages }) {
         <div
           key={i}
           className={`flex ${
-            message.role === "user" ? "justify-end" : "justify-start"
+            message.role === "user" ? "justify-end" : "w-full" 
           }`}
         >
           <div
             className={`px-4 py-3 rounded-lg ${
               message.role === "user"
-                ? "bg-blue-500 text-white dark:bg-blue-600"
-                : "bg-gray-200 text-black dark:bg-gray-700 dark:text-white"
+                ? "bg-blue-600 text-white dark:bg-blue-600"
+                : "text-black dark:text-white w-full"
             }`}
           >
             <MarkdownMessage content={message.content} />
