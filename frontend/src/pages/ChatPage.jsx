@@ -1,6 +1,8 @@
-import { useState, useRef } from "react";
-import ChatContainer from "../components/ChatContainer";
+import { useEffect, useState, useRef } from "react";
+import ChatMessages from "../components/ChatMessages";
 import ChatInput from "../components/ChatInput";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 const CHAT_API = "http://localhost:8000/api/ai/chat";
 const ABORT_API = "http://localhost:8000/api/ai/abort";
@@ -13,6 +15,34 @@ function ChatPage() {
 
   const controllerRef = useRef(null);
   const readerRef = useRef(null);
+
+  const bottomRef = useRef(null);
+  const chatRef = useRef(null);
+
+  const [autoScroll, setAutoScroll] = useState(true);
+
+  {/*Handle Autoscroll*/}
+  useEffect(() => {
+    const el = chatRef.current;
+
+    const handleScroll = () => {
+      const threshold = 1;
+      const atBottom =
+        el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+
+      setAutoScroll(atBottom);
+    };
+
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+  useEffect(() => {
+    if (autoScroll){
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, autoScroll]);
 
   const stopStream = async () => {
 
@@ -75,26 +105,45 @@ function ChatPage() {
     setIsStreaming(false);
 
   };
+  
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+      <div className="flex h-screen bg-white dark:bg-gray-950 text-black dark:text-white">
 
-      <h2 className="text-2xl font-bold mb-4">
-        LLMo Chat
-      </h2>
+        {/* Sidebar */}
+        <Sidebar />
 
-      <ChatContainer messages={messages} />
+        {/* Main Chat Area */}
+        <main className="flex flex-col flex-1">
 
-      <ChatInput
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-        stopStream={stopStream}
-        isStreaming={isStreaming}
-      />
+          <Header />
 
-    </div>
-  );
+          {/* Scrollable Chat */}
+          <div ref={chatRef} className="flex-1 overflow-y-auto chat-scroll">
+            <div className="px-6">
+              <ChatMessages messages={messages} />
+            <div ref={bottomRef}/>
+          </div>
+          </div>
+
+          {/* Sticky Input */}
+          <div className="bg-white dark:bg-gray-900 px-4 pb-4">
+            <div className="max-w-3xl mx-auto">
+              <ChatInput
+                input={input}
+                setInput={setInput}
+                sendMessage={sendMessage}
+                stopStream={stopStream}
+                isStreaming={isStreaming}
+              />
+            </div>
+          </div>
+
+        </main>
+
+      </div>
+    );
+
 }
 
 export default ChatPage;

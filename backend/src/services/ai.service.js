@@ -14,6 +14,7 @@ export async function askLLM(messages) {
     model: OLLAMA_MODEL,
     messages: [system, ...messages],
     stream: true,
+    keep_alive: -1
   });
 
   return {

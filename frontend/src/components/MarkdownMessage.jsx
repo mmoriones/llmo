@@ -5,46 +5,55 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 function MarkdownMessage({ content }) {
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      components={{
-        code({ inline, className, children, ...props }) {
+    <div className="
+      prose max-w-none
+      prose-gray
+      dark:prose-invert
+      ">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          code({ inline, className, children, ...props }) {
 
-          const match = /language-(\w+)/.exec(className || "");
-          const code = String(children).replace(/\n$/, "");
+            const match = /language-(\w+)/.exec(className || "");
+            const code = String(children).replace(/\n$/, "");
 
-          if (!inline && match) {
+            if (!inline && match) {
+              return (
+                <div className="relative">
+                  <button
+                    onClick={() => navigator.clipboard.writeText(code)}
+                    className="absolute right-2 top-2 text-xs bg-gray-700 text-white px-2 py-1 rounded"
+                  >
+                    copy
+                  </button>
+
+                  <SyntaxHighlighter
+                    style={vscDarkPlus}
+                    language={match[1]}
+                    PreTag="div"
+                    {...props}
+                  >
+                    {code}
+                  </SyntaxHighlighter>
+                </div>
+              );
+            }
+
             return (
-              <div className="relative">
-                <button
-                  onClick={() => navigator.clipboard.writeText(code)}
-                  className="absolute right-2 top-2 text-xs bg-gray-700 text-white px-2 py-1 rounded"
-                >
-                  copy
-                </button>
-
-                <SyntaxHighlighter
-                  style={vscDarkPlus}
-                  language={match[1]}
-                  PreTag="div"
-                  {...props}
-                >
-                  {code}
-                </SyntaxHighlighter>
-              </div>
+              <code className="bg-gray-200 dark:bg-gray-800
+                text-gray-900 dark:text-gray-100
+                px-1.5 py-0.5
+                rounded">
+                {children}
+              </code>
             );
           }
-
-          return (
-            <code className="bg-gray-200 px-1 rounded">
-              {children}
-            </code>
-          );
-        }
-      }}
-    >
-      {content}
-    </ReactMarkdown>
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
   );
 }
 
