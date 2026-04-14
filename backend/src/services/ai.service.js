@@ -13,7 +13,7 @@ export async function askLLM(messages) {
   const stream = await ollama.chat({
     model: OLLAMA_MODEL,
     messages: [system, ...messages],
-    stream: true
+    stream: true,
   });
 
   return {
