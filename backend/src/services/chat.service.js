@@ -1,5 +1,6 @@
 import { Ollama } from "ollama";
-import { OLLAMA_MODEL } from "../config/ollama.js";
+
+const chat_model = "llama3.2:1b"
 
 export const ollama = new Ollama();
 
@@ -11,7 +12,7 @@ export async function askLLM(messages) {
   };
 
   const stream = await ollama.chat({
-    model: OLLAMA_MODEL,
+    model: chat_model,
     messages: [system, ...messages],
     stream: true,
     keep_alive: -1

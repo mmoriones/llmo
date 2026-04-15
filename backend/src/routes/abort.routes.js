@@ -7,18 +7,23 @@ const router = express.Router();
  * @swagger
  * /api/ai/abort:
  *   post:
- *     summary: Abort All Response Generation
- *     description: 
- *     requestBody:
- *       required: false
- *       content:
- *         text/plain:
- *           schema:
- *             type: string
+ *     summary: Abort AI generation
+ *     description: Aborts the current Ollama streaming response
  *     responses:
  *       200:
- *         description: AI response
+ *         description: Generation successfully aborted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: aborted
+ *       500:
+ *         description: Abort failed
  */
+
 
 router.post("/abort", abortGeneration);
 

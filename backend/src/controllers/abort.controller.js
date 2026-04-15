@@ -1,10 +1,11 @@
-import { ollama } from "../services/ai.service.js";
+import { ollama } from "../services/chat.service.js";
 
 export const abortGeneration = async (req, res) => {
 
   try {
-
-    ollama.abort();
+    if (ollama){
+      ollama.abort();
+    }
 
     console.log("Ollama generation aborted");
 

@@ -1,4 +1,4 @@
-import { askLLM } from "../services/ai.service.js";
+import { askLLM } from "../services/chat.service.js";
 
 export const chatWithAI = async (req, res) => {
 

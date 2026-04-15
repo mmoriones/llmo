@@ -6,6 +6,7 @@ import Header from "../components/Header";
 
 const CHAT_API = "http://localhost:8000/api/ai/chat";
 const ABORT_API = "http://localhost:8000/api/ai/abort";
+const EMBED_API = "http://localhost:8000/api/ai/embed";
 
 function ChatPage() {
 
