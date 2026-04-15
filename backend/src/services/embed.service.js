@@ -4,12 +4,12 @@ const embed_model = "nomic-embed-text";
 
 export const ollama = new Ollama();
 
-export async function embedLLM(input) {
+export async function embedLLM(inputs) {
 
-  const embeddings = await ollama.embed({
+  const response = await ollama.embed({
     model: embed_model,
-    input: input
+    input: inputs
   });
 
-  return embeddings
+  return response;
 }
