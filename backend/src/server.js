@@ -6,7 +6,10 @@ import chatRoutes from "./routes/chat.routes.js";
 import abortRoutes from "./routes/abort.routes.js";
 import embedRoutes from "./routes/embed.routes.js";
 import pdfRoutes from "./routes/pdf.routes.js";
+import ragRoutes from "./routes/rag.routes.js";
+import { loadVectorStore } from "./services/vector.service.js";
 
+await loadVectorStore();
 
 const app = express();
 
@@ -14,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/ai", chatRoutes);
+app.use("/api/ai", ragRoutes);
 app.use("/api/ai", abortRoutes);
 app.use("/api/ai", embedRoutes);
 app.use("/api/pdf", pdfRoutes);

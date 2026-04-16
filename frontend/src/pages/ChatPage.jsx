@@ -6,13 +6,15 @@ import Header from "../components/Header";
 
 const CHAT_API = "http://localhost:8000/api/ai/chat";
 const ABORT_API = "http://localhost:8000/api/ai/abort";
-const EMBED_API = "http://localhost:8000/api/ai/embed";
+const RAG_CHAT_API = "http://localhost:8000/api/ai/chat/rag";
 
 function ChatPage() {
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+
+  const [useRAG, setUseRAG] = useState(false);
 
   const controllerRef = useRef(null);
   const readerRef = useRef(null);
@@ -75,7 +77,9 @@ function ChatPage() {
     setMessages(newMessages);
     setInput("");
 
-    const res = await fetch(CHAT_API, {
+    const endpoint = useRAG ? RAG_CHAT_API: CHAT_API;
+
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: newMessages }),
@@ -117,7 +121,21 @@ function ChatPage() {
         {/* Main Chat Area */}
         <main className="flex flex-col flex-1">
 
+        <div className="flex">
+
+          <button
+              className={`px-3 py-1 rounded ${
+                useRAG ? "bg-green-600 text-white" : "bg-gray-300"
+              }`}
+              onClick={() => setUseRAG(prev => !prev)}
+            >
+              {useRAG ? "RAG Mode" : "Normal Chat"}
+        </button>
+
           <Header />
+
+        </div>
+          
 
           {/* Scrollable Chat */}
           <div ref={chatRef} className="flex-1 overflow-y-auto chat-scroll">

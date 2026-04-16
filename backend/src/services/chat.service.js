@@ -2,7 +2,9 @@ import { Ollama } from "ollama";
 
 const chat_model = "llama3.2:1b"
 
-export const ollama = new Ollama();
+export const ollama = new Ollama({
+  host: "http://localhost:11434"
+});
 
 export async function askLLM(messages) {
 

@@ -1,4 +1,8 @@
-import ollama from "ollama";
+import { Ollama } from "ollama";
+
+const embedClient = new Ollama({
+  host: "http://localhost:11435"
+});
 
 export async function embedLLM(chunks, batchSize = 2) {
 
@@ -11,7 +15,7 @@ export async function embedLLM(chunks, batchSize = 2) {
 
     const batch = chunks.slice(i, i + batchSize);
 
-    const response = await ollama.embed({
+    const response = await embedClient.embed({
       model: "all-minilm",
       input: batch
     });

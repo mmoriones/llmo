@@ -1,5 +1,6 @@
 import { extractPDFText, splitText } from "../services/pdf.service.js";
 import { embedLLM } from "../services/embed.service.js";
+import { saveEmbeddings } from "../services/vector.service.js";
 
 export const uploadPDF = async (req, res) => {
 
@@ -17,6 +18,7 @@ export const uploadPDF = async (req, res) => {
     const chunks = splitText(text);
     
     const embeddings = await embedLLM(chunks);
+    await saveEmbeddings(chunks, embeddings);
 
     console.log("PDF TEXT LENGTH:", text.length);
     console.log("CHUNKS:", chunks.length);
@@ -30,7 +32,7 @@ export const uploadPDF = async (req, res) => {
 
   } catch (error) {
 
-    console.error("PDF ERROR:", error);   // ← IMPORTANT
+    console.error("PDF ERROR:", error);
 
     res.status(500).json({
       error: "PDF processing failed"
