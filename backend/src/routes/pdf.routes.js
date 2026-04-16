@@ -4,7 +4,7 @@ import { uploadPDF } from "../controllers/pdf.controller.js";
 
 const upload = multer({
   dest: "uploads/",
-  limits: { fileSize: 1 * 1024 * 1024 },
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (file.mimetype === "application/pdf") {
       cb(null, true);
