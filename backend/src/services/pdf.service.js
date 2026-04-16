@@ -18,13 +18,38 @@ export async function extractPDFText(path) {
 }
 
 // Chunker
-export function splitText(text, chunkSize = 800, overlap = 100) {
+export function splitText(text, maxChunkSize = 800) {
+
+  const paragraphs = text
+    .replace(/\r/g, "")
+    .split(/\n\s*\n/)   // split by empty lines
+    .map(p => p.trim())
+    .filter(p => p.length > 0);
 
   const chunks = [];
+  let currentChunk = "";
 
-  for (let i = 0; i < text.length; i += chunkSize - overlap) {
-    chunks.push(text.slice(i, i + chunkSize));
+  for (const paragraph of paragraphs) {
+
+    if ((currentChunk + paragraph).length > maxChunkSize) {
+
+      if (currentChunk.length > 0) {
+        chunks.push(currentChunk.trim());
+      }
+
+      currentChunk = paragraph;
+
+    } else {
+
+      currentChunk += "\n\n" + paragraph;
+
+    }
+  }
+
+  if (currentChunk.length > 0) {
+    chunks.push(currentChunk.trim());
   }
 
   return chunks;
 }
+

@@ -1,15 +1,40 @@
-import { Ollama } from "ollama";
+import ollama from "ollama";
 
-const embed_model = "nomic-embed-text";
+export async function embedLLM(chunks, batchSize = 2) {
 
-export const ollama = new Ollama();
+  const embeddings = [];
+  const totalBatches = Math.ceil(chunks.length / batchSize);
 
-export async function embedLLM(inputs) {
+  const start = Date.now();
 
-  const response = await ollama.embed({
-    model: embed_model,
-    input: inputs
-  });
+  for (let i = 0; i < chunks.length; i += batchSize) {
 
-  return response;
+    const batch = chunks.slice(i, i + batchSize);
+
+    const response = await ollama.embed({
+      model: "all-minilm",
+      input: batch
+    });
+
+    embeddings.push(...response.embeddings);
+
+    const currentBatch = Math.floor(i / batchSize) + 1;
+
+    // progress %
+    const percent = ((currentBatch / totalBatches) * 100).toFixed(1);
+
+    // progress bar
+    const barLength = 20;
+    const filled = Math.round((currentBatch / totalBatches) * barLength);
+    const bar = "█".repeat(filled) + "-".repeat(barLength - filled);
+
+    console.log(
+      `[${bar}] ${percent}% | Batch ${currentBatch}/${totalBatches}`
+    );
+  }
+
+  const end = Date.now();
+  console.log("TIME:", (end - start) / 1000, "seconds");
+
+  return embeddings;
 }
