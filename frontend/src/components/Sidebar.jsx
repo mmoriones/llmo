@@ -6,7 +6,7 @@ function Sidebar() {
 
   return (
     <aside
-    className={`h-screen bg-white bg-white dark:bg-gray-900 shadow-[1px_0_3px_rgba(0,0,0,0.08)] p-4 flex flex-col transition-all duration-300
+    className={`h-screen bg-white bg-white dark:bg-gray-800 shadow-[1px_0_3px_rgba(0,0,0,0.08)] p-4 flex flex-col transition-all duration-300
     ${collapsed ? "w-16" : "w-70"}`}
     >
 

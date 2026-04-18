@@ -23,6 +23,7 @@ export const uploadPDF = async (req, res) => {
     console.log("PDF TEXT LENGTH:", text.length);
     console.log("CHUNKS:", chunks.length);
     console.log("FIRST CHUNK SIZE:", chunks[0].length);
+    console.log("MAX CHUNK SIZE:", Math.max(...chunks.map(c => c.length)));
 
     res.json({
       message: "PDF processed",

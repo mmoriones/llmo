@@ -7,7 +7,7 @@ import useChat from "../hooks/useChat";
 import useAutoScroll from "../hooks/useAutoScroll";
 import { useState } from "react";
 
-function ChatPage() {
+function CodePage() {
 
   const [input, setInput] = useState("");
   
@@ -48,4 +48,4 @@ function ChatPage() {
   );
 }
 
-export default ChatPage;
+export default CodePage;

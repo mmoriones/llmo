@@ -1,6 +1,6 @@
 import { Ollama } from "ollama";
 
-const chat_model = "llama3.2:1b"
+const chat_model = "qwen3.5:0.8b"
 
 export const ollama = new Ollama({
   host: "http://localhost:11434"
@@ -26,7 +26,8 @@ export async function askRAG(question, contextChunks) {
     model: chat_model,
     messages: [{ role: "user", content: prompt }],
     stream: true,
-    keep_alive: "1h"
+    keep_alive: "1h",
+    think: false
   });
 
   return {

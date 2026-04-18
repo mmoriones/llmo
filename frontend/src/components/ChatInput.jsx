@@ -19,14 +19,20 @@ function ChatInput({
         value={input}
         onChange={(e)=>setInput(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") sendMessage();
+          if (e.key === "Enter") {
+            sendMessage(input);
+            setInput("");
+          }
         }}
         placeholder="Type a message..."
       />
 
       {!isStreaming ? (
         <button
-          onClick={sendMessage}
+          onClick={() => { 
+            sendMessage(input)
+            setInput("");
+          }}
           className="bg-blue-500 
                     hover:bg-blue-600
                     dark:bg-blue-600 dark:hover:bg-blue-700

@@ -18,7 +18,7 @@ export async function extractPDFText(path) {
 }
 
 // Chunker
-export function splitText(text, maxChunkSize = 800) {
+export function splitText(text, maxChunkSize = 500) {
 
   const paragraphs = text
     .replace(/\r/g, "")

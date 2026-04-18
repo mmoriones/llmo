@@ -7,12 +7,12 @@ import useChat from "../hooks/useChat";
 import useAutoScroll from "../hooks/useAutoScroll";
 import { useState } from "react";
 
-function ChatPage() {
+function RAGPage() {
 
   const [input, setInput] = useState("");
   
   const { messages, sendMessage, stopStream, isStreaming } = useChat({
-    chatApi: "http://localhost:8000/api/ai/chat",
+    chatApi: "http://localhost:8000/api/ai/chat/rag",
   });
 
   const { chatRef, bottomRef } = useAutoScroll(messages)
@@ -48,4 +48,4 @@ function ChatPage() {
   );
 }
 
-export default ChatPage;
+export default RAGPage;

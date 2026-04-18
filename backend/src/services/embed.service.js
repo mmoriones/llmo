@@ -4,7 +4,7 @@ const embedClient = new Ollama({
   host: "http://localhost:11435"
 });
 
-export async function embedLLM(chunks, batchSize = 2) {
+export async function embedLLM(chunks, batchSize = 4) {
 
   const embeddings = [];
   const totalBatches = Math.ceil(chunks.length / batchSize);
@@ -16,7 +16,7 @@ export async function embedLLM(chunks, batchSize = 2) {
     const batch = chunks.slice(i, i + batchSize);
 
     const response = await embedClient.embed({
-      model: "all-minilm",
+      model: "nomic-embed-text",
       input: batch
     });
 
