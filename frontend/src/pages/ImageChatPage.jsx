@@ -12,7 +12,7 @@ function CodePage() {
   const [input, setInput] = useState("");
   
   const { messages, sendMessage, stopStream, isStreaming } = useChat({
-    chatApi: "http://localhost:8000/api/ai/chat",
+    chatApi: "http://localhost:8000/api/ai/chat/img",
   });
 
   const { chatRef, bottomRef } = useAutoScroll(messages)

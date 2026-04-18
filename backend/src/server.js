@@ -7,6 +7,8 @@ import abortRoutes from "./routes/abort.routes.js";
 import embedRoutes from "./routes/embed.routes.js";
 import pdfRoutes from "./routes/pdf.routes.js";
 import ragRoutes from "./routes/rag.routes.js";
+import uploadImgRoutes from "./routes/imgUpload.routes.js";
+import chatImgRoutes from "./routes/chatImg.routes.js";
 import { loadVectorStore } from "./services/vector.service.js";
 
 await loadVectorStore();
@@ -21,6 +23,8 @@ app.use("/api/ai", ragRoutes);
 app.use("/api/ai", abortRoutes);
 app.use("/api/ai", embedRoutes);
 app.use("/api/pdf", pdfRoutes);
+app.use("/api/ai", uploadImgRoutes);
+app.use("/api/ai", chatImgRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
